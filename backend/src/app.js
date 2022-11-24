@@ -1,6 +1,8 @@
-const express = require("express");
+const express = require("express"),
+  mongoose = require('mongoose'),
 router = require("./common/routes");
-
+// mongoose.now('')
+mongoose.connect("mongodb://localhost:27017", );
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));

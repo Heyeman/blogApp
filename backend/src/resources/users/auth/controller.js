@@ -8,6 +8,13 @@ const createUser = asyncHandler(async (req, res) => {
     res.send("All fields should be filled");
   }
 
+  const userExists = await UserDAL.getOne({ email })
+  if (userExists) {
+    res.send("User exists")
+  }
+
+  const newUser = await UserDal.createOne({firstName, lastName, email, password})
+
 
     
     

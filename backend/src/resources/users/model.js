@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
   metaData: {
     profilePicture: {
       type: String,
-      default: process.env.DEFAULT_PROFILE_PICTURE,
+      default: process.env.DEFAULT_PROFILE_PICTURE_URL,
     },
     blogs: {
       type: Number,
