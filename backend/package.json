@@ -1,0 +1,19 @@
+{
+  "name": "blog_app_backend",
+  "version": "1.0.0",
+  "description": "Backend server for a mini bloggin app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyeman/blogapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heyeman/blogapp/issues"
+  },
+  "homepage": "https://github.com/heyeman/blogapp#readme"
+}
