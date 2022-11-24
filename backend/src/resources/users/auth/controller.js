@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const userModel = require('../model')
-const UserDAL = require('../../../common/dal')(userModel)
+const userModel = require("../model");
+const UserDAL = require("../../../common/dal")(userModel);
 
 const createUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body();
@@ -8,14 +8,20 @@ const createUser = asyncHandler(async (req, res) => {
     res.send("All fields should be filled");
   }
 
-  const userExists = await UserDAL.getOne({ email })
+  const userExists = await UserDAL.getOne({ email });
   if (userExists) {
-    res.send("User exists")
+    res.send("User exists");
   }
 
-  const newUser = await UserDal.createOne({firstName, lastName, email, password})
+  const newUser = await UserDal.createOne({
+    firstName,
+    lastName,
+    email,
+    password,
+  });
 
-
-    
-    
+  res.json({
+    id: newUser._id,
+    firstName: newUser.firstName,
+  });
 });
