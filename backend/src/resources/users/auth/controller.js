@@ -1,11 +1,18 @@
 const asyncHandler = require("express-async-handler");
+const logger = require("../../../common/logger");
 const userModel = require("../model");
-const UserDAL = require("../../../common/dal")(userModel);
-
+const DAL = require("../../../common/dal"),
+  UserDAL = DAL(userModel);
 const createUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = req.body();
+  const { firstName, lastName, email, password } = req.body;
   if (!firstName || !lastName || !email || !password) {
-    res.send("All fields should be filled");
+    res.send(
+      `Fields: ${firstName ? "" : "Firstname,"} ${
+        lastName ? "" : "lastname,"
+      } ${email ? "" : "email,"} ${
+        password ? "" : "password"
+      } should be filled.`
+    );
   }
 
   const userExists = await UserDAL.getOne({ email });
@@ -13,7 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
     res.send("User exists");
   }
 
-  const newUser = await UserDal.createOne({
+  const newUser = await UserDAL.createOne({
     firstName,
     lastName,
     email,
@@ -25,3 +32,7 @@ const createUser = asyncHandler(async (req, res) => {
     firstName: newUser.firstName,
   });
 });
+
+module.exports = {
+  createUser,
+};

@@ -1,19 +1,15 @@
 const getOne = (model) => {
-  async (props) => {
+  return async (props) => {
     return await model.findOne(props);
   };
 };
 
-const getAll = (model) => {
-  async (props) => {
-    return await model.find(props).sort({ updatedAt: -1 });
-  };
+const getAll = (model) => async (props) => {
+  return await model.find(props).sort({ updatedAt: -1 });
 };
 
-const createOne = (model) => {
-  async (props) => {
-    return await model.create(props);
-  };
+const createOne = (model) => async (props) => {
+  return await model.create(props);
 };
 
 const dataAccessLayer = (model) => ({
