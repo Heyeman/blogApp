@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-
+const mongoose = require("mongoose"),
+  bcrypt = require("bcrypt"),
+  SALT_ROUNDS = 10;
 const userSchema = mongoose.Schema({
   firstName: {
     type: String,
@@ -38,6 +39,15 @@ const userSchema = mongoose.Schema({
   },
 });
 
+userSchema.pre("save", (next) => {
+  let user = this;
+  if (!user.isModified("password")) return next();
+  bcrypt.hash(user.password, SALT_ROUNDS, (err, hashedPassword) => {
+    if (err) return next(err);
+    user.password = hashedPassword;
+    return next();
+  });
+});
 const userModel = mongoose.model("User", userSchema);
 
 module.exports = userModel;
