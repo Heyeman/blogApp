@@ -27,9 +27,10 @@ const createUser = asyncHandler(async (req, res) => {
     password,
   });
 
+  const { password: userPassword, ...userDetails } = newUser._doc;
+
   res.json({
-    id: newUser._id,
-    firstName: newUser.firstName,
+    userDetails,
   });
 });
 
