@@ -3,7 +3,7 @@ const express = require("express"),
   router = require("./common/routes"),
   dotenv = require("./common/env");
 const logger = require("./common/logger"),
-  errorHandler = require("./helpers/errorHandler");
+  errorHandler = require("./middlewares/errorHandler");
 
 mongoose.connection.on("connecting", function () {
   logger.info("trying to establish a connection to mongo");
