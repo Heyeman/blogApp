@@ -3,6 +3,7 @@ const logger = require("../../../common/logger");
 const userModel = require("../model");
 const DAL = require("../../../common/dal"),
   UserDAL = DAL(userModel);
+const otpGen = require("../../../helpers/otpGen");
 const createUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   if (!firstName || !lastName || !email || !password) {
@@ -28,9 +29,15 @@ const createUser = asyncHandler(async (req, res) => {
   });
 
   const { password: userPassword, ...userDetails } = newUser._doc;
+  const refreshToken = await otpGen(userDetails._id, true);
+  const accessToken = await otpGen(userDetails._id);
 
-  res.json({
+  res.status(201).json({
     userDetails,
+    tokens: {
+      refreshToken,
+      accessToken,
+    },
   });
 });
 
