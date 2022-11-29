@@ -11,9 +11,7 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error(
       `Fields: ${firstName ? "" : "Firstname, "}${
         lastName ? "" : "lastname, "
-      }${email ? "" : "email, "}${
-        password ? "" : "password"
-      } should be filled.`
+      }${email ? "" : "email, "}${password ? "" : "password"} should be filled.`
     );
   }
 
@@ -43,6 +41,10 @@ const createUser = asyncHandler(async (req, res) => {
   });
 });
 
+const login = asyncHandler(async (req, res) => {
+  res.send("login");
+});
 module.exports = {
   createUser,
+  login,
 };
