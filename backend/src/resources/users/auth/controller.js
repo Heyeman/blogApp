@@ -7,10 +7,11 @@ const otpGen = require("../../../helpers/otpGen");
 const createUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   if (!firstName || !lastName || !email || !password) {
-    res.send(
-      `Fields: ${firstName ? "" : "Firstname,"} ${
-        lastName ? "" : "lastname,"
-      } ${email ? "" : "email,"} ${
+    res.statusCode = 400;
+    throw new Error(
+      `Fields: ${firstName ? "" : "Firstname, "}${
+        lastName ? "" : "lastname, "
+      }${email ? "" : "email, "}${
         password ? "" : "password"
       } should be filled.`
     );
@@ -18,7 +19,10 @@ const createUser = asyncHandler(async (req, res) => {
 
   const userExists = await UserDAL.getOne({ email });
   if (userExists) {
-    res.send("User exists");
+    res.statusCode = 400;
+    throw new Error("User with this email exists already.");
+    res.statusCode = 400;
+    throw new Error("User with this email exists already.");
   }
 
   const newUser = await UserDAL.createOne({
