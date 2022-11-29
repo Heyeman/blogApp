@@ -2,8 +2,7 @@ const express = require("express"),
   mongoose = require("mongoose"),
   router = require("./common/routes"),
   dotenv = require("./common/env");
-const logger = require("./common/logger"),
-  errorHandler = require("./middlewares/errorHandler");
+const logger = require("./common/logger");
 
 mongoose.connection.on("connecting", function () {
   logger.info("trying to establish a connection to mongo");
@@ -28,6 +27,5 @@ app.get("/", (req, res) => {
 });
 
 app.use(router);
-app.use(errorHandler);
 
 module.exports = app;
