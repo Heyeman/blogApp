@@ -4,7 +4,7 @@ const logger = require("../../../common/logger"),
 const userModel = require("../model");
 const DAL = require("../../../common/dal"),
   UserDAL = DAL(userModel);
-const otpGen = require("../../../helpers/otpGen" a);
+const otpGen = require("../../../helpers/otpGen");
 const createUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   if (!firstName || !lastName || !email || !password) {
