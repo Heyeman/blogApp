@@ -7,6 +7,6 @@ router.get("/", (req, res) => {
 });
 router.use("/auth", authRoutes);
 router.use(authMiddleware);
-router.get("./me", whoAmI);
+router.get("/me", whoAmI);
 
 module.exports = router;
