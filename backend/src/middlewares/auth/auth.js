@@ -4,11 +4,12 @@ const jwt = require("jsonwebtoken"),
   DAL = require("../../common/dal"),
   User = require("../../resources/users/model"),
   RefreshToken = require("./model"),
+  jwtGen = require("../../helpers/jwtGen"),
   UserDAL = DAL(User),
   RefreshDAL = DAL(RefreshToken);
 const verifyRefreshToken = asyncHandler(async (refreshToken) => {
   if (!refreshToken) {
-    return false;
+    return null;
   }
   try {
     const decoded = await jwt.verify(refreshToken, JWT_SECRET),
@@ -18,15 +19,15 @@ const verifyRefreshToken = asyncHandler(async (refreshToken) => {
     }
     const refreshExists = await RefreshDAL.getOne({ refreshToken });
     if (refreshExists) {
-      return false;
+      return null;
     }
     const addedRefreshToken = await RefreshDAL.createOne({
       refreshToken,
       userId: user.id,
     });
-    return true;
+    return user.id;
   } catch {
-    return false;
+    return null;
   }
 });
 
@@ -52,14 +53,19 @@ module.exports = asyncHandler(async (req, res, next) => {
     } catch (error) {
       if (error.message == "jwt expired") {
         logger.info("expired token".red);
-        const validRefreshToken = await verifyRefreshToken(req.headers["refreshtoken"]);
-        if (!validRefreshToken) {
+        const userId = await verifyRefreshToken(req.headers["refreshtoken"]);
+        if (!userId) {
           res.statusCode = 401;
-          throw new Error('Invalid token');
+          throw new Error("Invalid token");
         }
+        const newRefreshToken = await jwtGen({ id: userId }),
+          newAccessToken = await jwtGen({ id: userId });
 
+        res.tokens = {
+          accessToken: newAccessToken,
+          refreshToken: newAccessToken,
+        };
       }
-      // logger.error(error.message);
     }
   } else {
     logger.info("not ");
