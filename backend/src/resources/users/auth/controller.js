@@ -4,7 +4,7 @@ const logger = require("../../../common/logger"),
 const userModel = require("../model");
 const DAL = require("../../../common/dal"),
   UserDAL = DAL(userModel);
-const otpGen = require("../../../helpers/otpGen");
+const jwtGen = require("../../../helpers/jwtGen");
 const createUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   if (!firstName || !lastName || !email || !password) {
@@ -30,8 +30,8 @@ const createUser = asyncHandler(async (req, res) => {
   });
 
   const { password: userPassword, ...userDetails } = newUser._doc;
-  const refreshToken = await otpGen(userDetails._id, true);
-  const accessToken = await otpGen(userDetails._id);
+  const refreshToken = await jwtGen(userDetails._id, true);
+  const accessToken = await jwtGen(userDetails._id);
 
   res.status(201).json({
     userDetails,
@@ -59,8 +59,8 @@ const login = asyncHandler(async (req, res) => {
     throw new Error("Credential error");
   }
   const { password: userPassword, ...userDetails } = userExists._doc;
-  const refreshToken = await otpGen(userDetails._id, true);
-  const accessToken = await otpGen(userDetails._id);
+  const refreshToken = await jwtGen(userDetails._id, true);
+  const accessToken = await jwtGen(userDetails._id);
   res.status(200).json({
     userDetails,
     tokens: {
