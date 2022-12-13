@@ -8,27 +8,27 @@ const jwt = require("jsonwebtoken"),
   UserDAL = DAL(User),
   RefreshDAL = DAL(RefreshToken);
 const verifyRefreshToken = asyncHandler(async (refreshToken) => {
-  logger.info("verifying");
+  // logger.info("verifying");
   if (!refreshToken) {
-    logger.info("no token provided");
+    // logger.info("no token provided");
     return null;
   } else {
-    logger.info("refresh there");
+    // logger.info("refresh there");
   }
   try {
-    logger.info("trying");
+    // logger.info("trying");
     const decoded = await jwt.verify(refreshToken, process.env.JWT_SECRET);
-    logger.info("finding user");
+    // logger.info("finding user");
 
     const user = await UserDAL.getOne({ id: decoded.id });
     if (!user) {
-      logger.info("no user");
+      // logger.info("no user");
       throw new Error("No user");
     }
-    logger.info("user is theres");
+    // logger.info("user is theres");
     const refreshExists = await RefreshDAL.getOne({ refreshToken });
     if (refreshExists) {
-      logger.info("existing refresh token");
+      // logger.info("existing refresh token");
       return null;
     }
     const addedRefreshToken = await RefreshDAL.createOne({
@@ -37,7 +37,7 @@ const verifyRefreshToken = asyncHandler(async (refreshToken) => {
     });
     return user.id;
   } catch (error) {
-    logger.info("caught" + error.message);
+    // logger.info("caught" + error.message);
 
     return null;
   }
@@ -64,7 +64,7 @@ module.exports = asyncHandler(async (req, res, next) => {
       // logger.info("last".red);
     } catch (error) {
       if (error.message == "jwt expired") {
-        logger.info("Expired");
+        // logger.info("Expired");
         const userId = await verifyRefreshToken(req.headers["refreshtoken"]);
         if (!userId) {
           res.statusCode = 401;
