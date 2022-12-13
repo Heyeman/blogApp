@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"),
   { Schema, Types } = mongoose;
 const refreshTokenSchema = new Schema({
-  reftoken: {
+  refreshToken: {
     type: String,
     required: true,
   },
