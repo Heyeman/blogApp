@@ -52,12 +52,12 @@ module.exports = asyncHandler(async (req, res, next) => {
     } catch (error) {
       if (error.message == "jwt expired") {
         logger.info("expired token".red);
-        const validRefreshToken = await verifyRefreshToken(req.headers["refreshToken"]);
+        const validRefreshToken = await verifyRefreshToken(req.headers["refreshtoken"]);
         if (!validRefreshToken) {
           res.statusCode = 401;
           throw new Error('Invalid token');
         }
-        
+
       }
       // logger.error(error.message);
     }
