@@ -5,6 +5,7 @@ const router = require("express").Router(),
 router.get("/", (req, res) => {
   res.send("users home");
 });
+//auth section
 router.use("/auth", authRoutes);
 router.get("/profile", authMiddleware, getInfo);
 router.get("/profile/:id", authMiddleware, getInfo);
