@@ -14,11 +14,14 @@ const createOne = (model) => async (props) => {
   return await model.create(props);
 };
 
-const updateOne = (model) => async (filter, props) => {
-  return await model.findOneAndUpdate(filter, {
-    $set: props,
-  });
-};
+const updateOne =
+  (model) =>
+  async (filter = {}, props = {}, push = {}) => {
+    return await model.findOneAndUpdate(filter, {
+      $set: props,
+      $push: push,
+    });
+  };
 const deleteOne = (model) => async (filter) => {
   return await model.findAndDelete(filter);
 };
