@@ -32,13 +32,12 @@ const createUser = asyncHandler(async (req, res) => {
   const { password: userPassword, ...userDetails } = newUser._doc;
   const refreshToken = await jwtGen(userDetails._id, true);
   const accessToken = await jwtGen(userDetails._id);
-
+  res.tokens = {
+    refreshToken,
+    accessToken,
+  };
   res.status(201).json({
     userDetails,
-    tokens: {
-      refreshToken,
-      accessToken,
-    },
   });
 });
 
@@ -61,12 +60,12 @@ const login = asyncHandler(async (req, res) => {
   const { password: userPassword, ...userDetails } = userExists._doc;
   const refreshToken = await jwtGen(userDetails._id, true);
   const accessToken = await jwtGen(userDetails._id);
+  res.tokens = {
+    refreshToken,
+    accessToken,
+  };
   res.status(200).json({
     userDetails,
-    tokens: {
-      refreshToken,
-      accessToken,
-    },
   });
 });
 module.exports = {
