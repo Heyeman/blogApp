@@ -5,5 +5,7 @@ const app = require("./src/app"),
   logger = require("./src/common/logger"),
   port = process.env.PORT || 5000;
 app.listen(port, () => {
-  logger.info(`Running on ${os.hostname()} and listening to port ${port}`);
+  logger.info(
+    `Running on ${os.hostname()} and listening to port ${port}`.green
+  );
 });

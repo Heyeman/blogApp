@@ -22,7 +22,20 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const original = express.response.json;
+express.response.json = async function (obj) {
+  // logger.info("this is getting called");
+  if (this.tokens) {
+    // logger.info("calling this".white);
 
+    if (obj._doc) {
+      obj._doc.tokens = this.tokens;
+    } else {
+      obj.tokens = this.tokens;
+    }
+  }
+  return await original.call(this, obj);
+};
 app.get("/", (req, res) => {
   res.send("It's working");
 });

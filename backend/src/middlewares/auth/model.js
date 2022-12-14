@@ -1,17 +1,18 @@
 const mongoose = require("mongoose"),
   { Schema, Types } = mongoose;
 const refreshTokenSchema = new Schema({
-  token: {
+  refreshToken: {
+    type: String,
     required: true,
   },
   userId: {
-    type: Types.userId,
+    type: Types.ObjectId,
     required: true,
   },
   lastUsed: {
+    type: Date,
     default: null,
   },
 });
 
-refreshTokenModel.methods.pre('save',)
-const refreshTokenModel = mongoose.model('tokens', refreshTokenSchema)
+module.exports = mongoose.model("refreshTokens", refreshTokenSchema);
