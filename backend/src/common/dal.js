@@ -1,6 +1,10 @@
+const logger = require("./logger");
 const getOne = (model) => {
   return async (props) => {
-    return await model.findOne(props);
+    const response = await model.findOne(props);
+    logger.info("response");
+    // logger.info(response._doc);
+    return response;
   };
 };
 
