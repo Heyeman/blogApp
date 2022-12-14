@@ -55,13 +55,15 @@ module.exports = asyncHandler(async (req, res, next) => {
       const decoded = await jwt.verify(token, process.env.JWT_SECRET);
       // logger.info("here");
       // logger.info("finding", decoded);
-      const user = await UserDAL.getOne({ id: decoded.id });
+      const user = await UserDAL.getOne({ _id: decoded.id });
       if (!user) {
         res.statusCode = 401;
         throw new Error("User not found");
       }
       // logger.info("user is found");
       req.userId = user.id;
+      // logger.info("user is ".red + user.id);
+
       next();
       // logger.info(user.email);
       // logger.info("last".red);
@@ -83,8 +85,9 @@ module.exports = asyncHandler(async (req, res, next) => {
           refreshToken: newAccessToken,
         };
         res.tokens = tokens;
-
-        return next();
+        req.userId = userId;
+        // logger.info("user is ".red + userId);
+        next();
       }
       res.statusCode = 401;
       throw new Error("Unauthorized");

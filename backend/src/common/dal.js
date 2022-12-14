@@ -2,6 +2,8 @@ const logger = require("./logger");
 const getOne = (model) => {
   return async (props) => {
     const response = await model.findOne(props);
+    // console.log('res')
+    // console.log(response)
     return response;
   };
 };

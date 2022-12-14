@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler"),
   Blog = require("./model"),
   DAL = require("../../common/dal"),
-    BlogDAL = DAL(Blog),
-    {ObjectId} = require('mongoose').Types;
+  BlogDAL = DAL(Blog),
+  { ObjectId } = require("mongoose").Types;
 
 // Blog title
 // Blog content
@@ -19,31 +19,34 @@ const addBlog = asyncHandler(async (req, res) => {
   if (errorString) {
     res.statusCode = 400;
     throw new Error(errorString);
-    }
-    const blogInfo = {
-        title, content,assets, postedBy: ObjectId(req.userId)
-    }
-    try {
-        const addedBlog = await BlogDAL.createOne(blogInfo);
-        console.log(addedBlog)
-        res.status(201).json(addedBlog)
-    }
-    catch (error) {
-        res.statusCode = 400;
-        throw new Error(error.message)
-    }
+  }
+  const blogInfo = {
+    title,
+    content,
+    assets,
+    postedBy: ObjectId(req.userId),
+  };
+  try {
+    const addedBlog = await BlogDAL.createOne(blogInfo);
+    res.status(201).json(addedBlog);
+  } catch (error) {
+    res.statusCode = 400;
+    throw new Error(error.message);
+  }
 });
 
-
 const viewBlog = asyncHandler(async (req, res) => {
-    const blogId = req.params.id;
-    const blog = await BlogDAL.getOne({ _id: id });
-    if (!blog) {
-        res.statusCode = 404;
-        throw new Error('Blog not found')
-    }
-    res.status(200).json(blog)
-    
+  const blogId = req.params.id;
 
-})
+  try {
+    const blog = await BlogDAL.getOne({ _id: ObjectId(blogId) });
+    if (!blog) {
+      throw new Error("Blog not found");
+    }
+    res.status(200).json(blog);
+  } catch (error) {
+    res.statusCode = 404;
+    throw new Error("Blog not found");
+  }
+});
 module.exports = { addBlog, viewBlog };
