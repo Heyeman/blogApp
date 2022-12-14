@@ -1,11 +1,12 @@
 const router = require("express").Router(),
   { addBlog } = require("./controller");
 
+  router.get("/", (req, res) => {
+    res.send("blogs home");
+  });
 //add blogs
-router.get("/", (req, res) => {
-  res.send("blogs home");
-});
 router.post("/add", addBlog);
+
 
 //delete blogs
 //fetch blogs
