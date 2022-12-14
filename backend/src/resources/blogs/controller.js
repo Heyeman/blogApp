@@ -34,4 +34,16 @@ const addBlog = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { addBlog };
+
+const viewBlog = asyncHandler(async (req, res) => {
+    const blogId = req.params.id;
+    const blog = await BlogDAL.getOne({ _id: id });
+    if (!blog) {
+        res.statusCode = 404;
+        throw new Error('Blog not found')
+    }
+    res.status(200).json(blog)
+    
+
+})
+module.exports = { addBlog, viewBlog };

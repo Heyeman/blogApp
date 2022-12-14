@@ -1,15 +1,15 @@
 const router = require("express").Router(),
-  { addBlog } = require("./controller");
-
+  { addBlog } = require("./controller"),
+  authMiddleware = require("../../middlewares/auth/auth");
   router.get("/", (req, res) => {
     res.send("blogs home");
   });
 //add blogs
-router.post("/add", addBlog);
+router.post("/add", authMiddleware, addBlog);
+//view a single blog
 
+//fetch blogs
 
 //delete blogs
-//fetch blogs
-//view a single blog
 
 module.exports = router;
