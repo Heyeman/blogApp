@@ -4,7 +4,8 @@ const asyncHandler = require("express-async-handler"),
   UserDAL = DAL(User);
 
 const getInfo = asyncHandler(async (req, res) => {
-  const { id } = req;
+  const id = req.params.id || req.userId;
+
   const userInfo = await UserDAL.getOne({ id: id });
   res.json(userInfo);
 });

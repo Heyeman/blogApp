@@ -32,10 +32,10 @@ const verifyRefreshToken = asyncHandler(async (refreshToken) => {
       // logger.info("existing refresh token");
       return null;
     }
-    // const addedRefreshToken = await RefreshDAL.createOne({
-    //   refreshToken,
-    //   userId: user.id,
-    // });
+    const addedRefreshToken = await RefreshDAL.createOne({
+      refreshToken,
+      userId: user.id,
+    });
     return user.id;
   } catch (error) {
     // logger.info("caught" + error.message);
