@@ -7,5 +7,6 @@ router.get("/", (req, res) => {
 });
 router.use("/auth", authRoutes);
 router.get("/profile", authMiddleware, getInfo);
+router.get("/profile/:id", authMiddleware, getInfo);
 
 module.exports = router;

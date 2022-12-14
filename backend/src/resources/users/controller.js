@@ -5,8 +5,8 @@ const asyncHandler = require("express-async-handler"),
 
 const getInfo = asyncHandler(async (req, res) => {
   const id = req.params.id || req.userId;
-
-  const userInfo = await UserDAL.getOne({ id: id });
+  // logger.info("User is ", req.userId);
+  const userInfo = await UserDAL.getOne({ _id: id });
   res.json(userInfo);
 });
 
