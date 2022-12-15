@@ -20,10 +20,10 @@ const createOne = (model) => async (props) => {
 const updateOne =
   (model) =>
   async (filter = {}, props) => {
-    return await model.findOneAndUpdate(filter, 
-      $set: props,
-      $push: push,
-    );
+    return await model.findOneAndUpdate(filter, {
+      $set: props.set,
+      $push: props.push,
+    });
   };
 const deleteOne = (model) => async (filter) => {
   return await model.findAndDelete(filter);

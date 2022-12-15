@@ -51,11 +51,18 @@ const viewBlog = asyncHandler(async (req, res) => {
 });
 
 const likeBlog = asyncHandler(async (req, res) => {
-  const userId = req.userId;
-  
+  const userId = ObjectId(req.userId),
+    blogId = ObjectId(req.params.id);
 
-
-
-
-})
-module.exports = { addBlog, viewBlog };
+  const blog = await BlogDAL.getOne({ _id: blogId });
+  if (!blog) {
+    res.statusCode = 404;
+    throw new Error("Blog not found");
+  }
+  if (!blog.likedBy.contains(userId)) {
+    res.send("user hasnt liked");
+  } else {
+    res.send("user has liked it");
+  }
+});
+module.exports = { addBlog, viewBlog, likeBlog };
