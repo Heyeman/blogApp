@@ -49,4 +49,13 @@ const viewBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
 });
+
+const likeBlog = asyncHandler(async (req, res) => {
+  const userId = req.userId;
+  
+
+
+
+
+})
 module.exports = { addBlog, viewBlog };
