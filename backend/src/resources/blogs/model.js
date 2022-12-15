@@ -32,7 +32,7 @@ const blogSchema = mongoose.Schema({
     required: true,
   },
   likedBy: {
-    type: [actorSchema],
+    type: Array,
   },
   likes: {
     type: Number,

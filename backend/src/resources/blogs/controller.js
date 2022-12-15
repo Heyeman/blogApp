@@ -59,8 +59,20 @@ const likeBlog = asyncHandler(async (req, res) => {
     res.statusCode = 404;
     throw new Error("Blog not found");
   }
-  if (!blog.likedBy.contains(userId)) {
+
+  if (blog.likedBy.indexOf(userId) == -1) {
     res.send("user hasnt liked");
+    BlogDAL.updateOne(
+      { _id: blogId },
+      {
+        push: {
+          likedBy: userId,
+        },
+        inc: {
+          likes: 1,
+        },
+      }
+    );
   } else {
     res.send("user has liked it");
   }

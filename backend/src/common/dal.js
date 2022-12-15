@@ -21,8 +21,11 @@ const updateOne =
   (model) =>
   async (filter = {}, props) => {
     return await model.findOneAndUpdate(filter, {
-      $set: props.set,
-      $push: props.push,
+      $set: props.set || new Object(),
+      $push: props.push || new Object(),
+      $pop: props.pop || new Object(),
+      $inc: props.inc || new Object(),
+      $ded: props.dec || new Object(),
     });
   };
 const deleteOne = (model) => async (filter) => {

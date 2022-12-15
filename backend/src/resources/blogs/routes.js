@@ -12,5 +12,5 @@ router.get("/:id", authMiddleware, viewBlog);
 
 //delete blogs
 //like blog
-router.put("/:id/like", authMiddleware);
+router.put("/:id/like", authMiddleware, likeBlog);
 module.exports = router;
