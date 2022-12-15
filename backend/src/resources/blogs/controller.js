@@ -59,10 +59,9 @@ const likeBlog = asyncHandler(async (req, res) => {
     res.statusCode = 404;
     throw new Error("Blog not found");
   }
-
-  if (blog.likedBy.indexOf(userId) == -1) {
-    res.send("user hasnt liked");
-    BlogDAL.updateOne(
+  const idIndex = blog.likedBy.indexOf(userId);
+  if (idIndex == -1) {
+    await BlogDAL.updateOne(
       { _id: blogId },
       {
         push: {
@@ -74,7 +73,30 @@ const likeBlog = asyncHandler(async (req, res) => {
       }
     );
   } else {
-    res.send("user has liked it");
+    blog.likedBy[idIndex] = blog.likedBy[blog.likedBy.length - 1];
+    blog.likedBy.pop();
+    await BlogDAL.updateOne(
+      { _id: blogId },
+      {
+        set: {
+          likedBy: blog.likedBy,
+        },
+        inc: {
+          likes: -1,
+        },
+      }
+    );
+    await BlogDAL.updateOne(
+      { _id: blogId },
+      {
+        pop: {
+          likedBy: 1,
+        },
+      }
+    );
   }
+  res.status(200).json({
+    message: "successful",
+  });
 });
 module.exports = { addBlog, viewBlog, likeBlog };

@@ -2,7 +2,7 @@ const { model } = require("mongoose");
 
 const getOne = (model) => {
   return async (props) => {
-    const response = await model.findOne(props);
+    const response = await model.findOne(props, { password: 0 });
     // console.log('res')
     // console.log(response)
     return response;
@@ -25,7 +25,6 @@ const updateOne =
       $push: props.push || new Object(),
       $pop: props.pop || new Object(),
       $inc: props.inc || new Object(),
-      $ded: props.dec || new Object(),
     });
   };
 const deleteOne = (model) => async (filter) => {
